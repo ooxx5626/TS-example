@@ -17,22 +17,28 @@ const requireEnv = (name: string): string => {
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      TELEGRAM_BOT_TOKEN: string;
-      TELEGRAM_CHAT_ID: string;
+      // TELEGRAM_BOT_TOKEN: string;
+      // TELEGRAM_CHAT_ID: string;
+      SERVER_PORT?: string;
+      DEFAULT_SYMBOL?: string;
     }
   }
 }
 
 // 應用程式配置
 interface AppConfig {
-  TelegramBotToken: string;
-  TelegramChatId: string;
+  // TelegramBotToken: string;
+  // TelegramChatId: string;
+  ServerPort?: number;
+  DefaultSymbol?: string;
 }
 
 // 創建並導出配置對象
 const config: AppConfig = {
-  TelegramBotToken: requireEnv('TELEGRAM_BOT_TOKEN'),
-  TelegramChatId: requireEnv('TELEGRAM_CHAT_ID')
+  // TelegramBotToken: requireEnv('TELEGRAM_BOT_TOKEN'),
+  // TelegramChatId: requireEnv('TELEGRAM_CHAT_ID'),
+  ServerPort: process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT) : 3000,
+  DefaultSymbol: process.env.DEFAULT_SYMBOL || 'BTCUSDT',
 };
 
 export default config;

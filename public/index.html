@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance Consolidation Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <!-- Add ECharts library -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Binance Consolidation Analysis</h1>
+            <p>Weekly heatmap of price consolidation periods</p>
+            <p class="chinese-explanation">價格收斂週期熱圖分析 - 滑鼠懸停於圖表可查看中文說明</p>
+            
+            <!-- Add time range selector -->
+            <div class="time-range-control">
+                <label for="daysSelector">選擇時間範圍: </label>
+                <select id="daysSelector">
+                    <option value="30">最近 30 天</option>
+                    <option value="60">最近 60 天</option>
+                    <option value="90">最近 90 天</option>
+                    <option value="180" selected>最近 180 天</option>
+                    <option value="365">最近 365 天</option>
+                </select>
+                <span id="timeRangeInfo" class="time-range-info">Showing data for the last 180 days</span>
+            </div>
+        </header>
+
+        <div class="card info-card">
+            <h2>Understanding Market Consolidation</h2>
+            <div class="info-content">
+                <div class="info-section">
+                    <h3>What is Consolidation?</h3>
+                    <p><strong>English:</strong> Consolidation refers to periods when price movements become less volatile and trade within a narrow range. These periods often precede significant breakout movements and can be ideal for setting up trades.</p>
+                    <p><strong>中文:</strong> 市場收斂是指價格波動性降低，在較窄範圍內交易的時期。這些時期通常在重大突破行情之前出現，可能是設置交易的理想時機。</p>
+                </div>
+                <div class="info-section">
+                    <h3>How to Read the Charts</h3>
+                    <p><strong>English:</strong> Higher scores (95-100) indicate stronger consolidation periods. Darker green areas show times with historically low volatility. These timeframes may offer better trading opportunities.</p>
+                    <p><strong>中文:</strong> 較高的分數（95-100）表示較強的收斂期。深綠色區域顯示歷史上波動性較低的時間。這些時段可能提供更好的交易機會。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Day-Hour Heatmap</h2>
+            <p class="chart-explanation">以熱圖形式直觀顯示一週中每個小時的市場收斂情況</p>
+            <div class="heatmap-container" style="height: 600px;">
+                <div id="trueDayHourHeatmap" style="width: 100%; height: 100%;"></div>
+            </div>
+            <div class="legend">
+                <div class="legend-item"><span class="color" style="background-color: rgba(0, 0, 255, 0.7)"></span>High Volatility</div>
+                <div class="legend-item"><span class="color" style="background-color: rgba(0, 255, 0, 0.7)"></span>Consolidation</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Weekly Heatmap</h2>
+            <p class="chart-explanation">顯示每週不同日期和時段的市場收斂程度，深綠色表示高收斂度</p>
+            <div class="heatmap-container">
+                <canvas id="weeklyHeatmap"></canvas>
+            </div>
+            <div class="legend">
+                <div class="legend-item"><span class="color" style="background-color: rgba(0, 0, 255, 0.7)"></span>High Volatility</div>
+                <div class="legend-item"><span class="color" style="background-color: rgba(0, 255, 0, 0.7)"></span>Consolidation</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="card half">
+                <h2>Hourly Analysis</h2>
+                <p class="chart-explanation">展示24小時內不同時段的市場收斂趨勢</p>
+                <canvas id="hourlyChart"></canvas>
+            </div>
+            <div class="card half">
+                <h2>Daily Analysis</h2>
+                <p class="chart-explanation">展示一週七天的市場收斂趨勢對比</p>
+                <canvas id="dailyChart"></canvas>
+            </div>
+        </div>
+
+        <footer>
+            <p>Kairos Trader - Binance Market Analysis Tool</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

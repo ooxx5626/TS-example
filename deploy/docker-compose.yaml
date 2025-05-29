@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  kairos-trader:
+    build:
+      context: ..
+      dockerfile: ./deploy/Dockerfile
+    container_name: kairos-trader
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      - NODE_ENV=production
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - SERVER_PORT=3001
+    volumes:
+      # For any persistent data
+      - ../data:/app/data
