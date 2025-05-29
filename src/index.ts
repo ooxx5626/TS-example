@@ -1,17 +1,14 @@
 import config from './config';
 import * as express from 'express';
 import * as path from 'path';
-import { BinanceService } from './service/binance';
-import { ConsolidationAnalyzer } from './analyzer/consolidation';
-import { TelegramService } from './service/telegram';
+// import { TelegramService } from './service/telegram';
+import apiRoutes from './routes/api';
 
 async function start() {
   console.log('Starting Kairos Trader...');
 
   // Initialize services
   // const telegramService = new TelegramService(config.TelegramBotToken, config.TelegramChatId);
-  const binanceService = new BinanceService();
-  const analyzer = new ConsolidationAnalyzer();
 
   try {
     // Set up the web server for the frontend
@@ -21,29 +18,8 @@ async function start() {
     // Serve static files
     app.use(express.static(path.join(__dirname, '../public')));
 
-    // API endpoint to get analysis data with days parameter
-    app.get('/api/consolidation-data', async (req, res) => {
-      try {
-        // Get days from query parameter, default to 180 if not provided
-        const days = parseInt(req.query.days as string) || 180;
-
-        // Limit to reasonable values
-        const safeDays = Math.min(Math.max(days, 7), 365);
-
-        console.log(`Fetching historical data for last ${safeDays} days...`);
-        const symbol = config.DefaultSymbol || 'BTCUSDT';
-        const historicalData = await binanceService.getHistoricalKlines(symbol, '1h', safeDays);
-
-        // Analyze periods of consolidation
-        console.log('Analyzing consolidation periods...');
-        const analysisResults = analyzer.analyzeConsolidation(historicalData);
-
-        res.json(analysisResults);
-      } catch (error) {
-        console.error('Error processing data request:', error);
-        res.status(500).json({ error: error.message });
-      }
-    });
+    // Use API routes
+    app.use('/api', apiRoutes);
 
     // Start server
     app.listen(port, () => {

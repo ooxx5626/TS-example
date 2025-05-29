@@ -78,6 +78,43 @@ footer {
     font-size: 14px;
 }
 
+/* Trading Signals Styles */
+#tradingSignalsContainer {
+    margin: 20px 0;
+    border: 1px solid #eee;
+}
+
+.signals-summary {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.summary-item {
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.summary-item.buy {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #2e7d32;
+}
+
+.summary-item.sell {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #c62828;
+}
+
+.summary-item.high-confidence {
+    background-color: rgba(33, 150, 243, 0.2);
+    color: #1565c0;
+}
+
 /* Info Card Styles */
 .info-card {
     background-color: rgba(240, 248, 255, 0.9);

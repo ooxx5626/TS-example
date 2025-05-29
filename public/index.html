@@ -85,11 +85,33 @@
             </div>
         </div>
 
+        <div class="card">
+            <h2>Trading Signals</h2>
+            <p class="chart-explanation">交易信號可視化 - 顯示市場買入和賣出信號點</p>
+            <div class="time-range-control">
+                <label for="signalDaysSelector">信號時間範圍: </label>
+                <select id="signalDaysSelector">
+                    <option value="30">最近 30 天</option>
+                    <option value="60">最近 60 天</option>
+                    <option value="90">最近 90 天</option>
+                    <option value="180" selected>最近 180 天</option>
+                    <option value="365">最近 365 天</option>
+                </select>
+            </div>
+            <div id="tradingSignalsContainer" style="height: 500px; width: 100%;"></div>
+            <div id="signalsSummary" class="signals-summary">
+                <div class="summary-item buy">買入信號: <span id="buySignalsCount">0</span></div>
+                <div class="summary-item sell">賣出信號: <span id="sellSignalsCount">0</span></div>
+                <div class="summary-item high-confidence">高信心信號: <span id="highConfidenceCount">0</span></div>
+            </div>
+        </div>
+
         <footer>
             <p>Kairos Trader - Binance Market Analysis Tool</p>
         </footer>
     </div>
 
     <script src="app.js"></script>
+    <script src="trading-signals.js"></script>
 </body>
 </html>

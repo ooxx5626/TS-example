@@ -14,6 +14,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fallback if selector not found
     fetchAndRenderData(180);
   }
+
+  // Add event listener for trading signals days selector
+  const signalDaysSelector = document.getElementById('signalDaysSelector');
+  if (signalDaysSelector) {
+    signalDaysSelector.addEventListener('change', function () {
+      const days = this.value;
+      initTradingSignals(days);
+    });
+
+    // Initial fetch of trading signals with default days
+    initTradingSignals(signalDaysSelector.value);
+  }
 });
 
 // Function to fetch data and render all charts
@@ -420,4 +432,73 @@ function renderTrueWeeklyHeatmap(data) {
   window.addEventListener('resize', function () {
     myChart.resize();
   });
+}
+
+// Initialize trading signals visualization
+function initTradingSignals(days) {
+  // Show loading indicator
+  const signalsContainer = document.getElementById('tradingSignalsContainer');
+  if (signalsContainer) {
+    signalsContainer.classList.add('loading');
+  }
+
+  fetchTradingSignals(days)
+    .then((signals) => {
+      // Clear existing signals
+      clearTradingSignals();
+
+      // Render new trading signals
+      renderTradingSignals(signals);
+
+      // Hide loading indicator
+      if (signalsContainer) {
+        signalsContainer.classList.remove('loading');
+      }
+    })
+    .catch((error) => {
+      console.error('Error loading trading signals:', error);
+      alert('Failed to load trading signals. See console for details.');
+      if (signalsContainer) {
+        signalsContainer.classList.remove('loading');
+      }
+    });
+}
+
+// Fetch trading signals data from the API
+async function fetchTradingSignals(days) {
+  const response = await fetch(`/api/trading-signals?days=${days}`);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return await response.json();
+}
+
+// Clear existing trading signals from the UI
+function clearTradingSignals() {
+  const signalsContainer = document.getElementById('tradingSignalsContainer');
+  if (signalsContainer) {
+    signalsContainer.innerHTML = '';
+  }
+}
+
+// Render trading signals in the UI
+function renderTradingSignals(signals) {
+  const signalsContainer = document.getElementById('tradingSignalsContainer');
+  if (!signalsContainer) return;
+
+  // Create a document fragment to improve performance
+  const fragment = document.createDocumentFragment();
+
+  signals.forEach((signal) => {
+    // Create a new element for each trading signal
+    const signalElement = document.createElement('div');
+    signalElement.className = 'trading-signal';
+    signalElement.textContent = `Signal: ${signal.signalType} at ${signal.time} - ${signal.details}`;
+
+    // Append to the fragment
+    fragment.appendChild(signalElement);
+  });
+
+  // Append the fragment to the container
+  signalsContainer.appendChild(fragment);
 }
